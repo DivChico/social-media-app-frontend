@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+// components
+import Home from "./pages/home/home.jsx";
+import Profile from "./pages/profile/Profile.jsx";
+import Login from "./pages/login/Login.jsx";
+
+// routing
+import { Route, Routes, Navigate } from "react-router-dom";
+import Register from "./pages/register/Register.jsx";
+
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext.js";
 
 function App() {
+  const { isFetching, error, dispatch, user } = useContext(AuthContext);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route
+          path="/"
+          exact
+          element={user ? <Home /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/profile/:userId"
+          element={user ? <Profile /> : <Navigate to="/login" />}
+        />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </div>
   );
 }

@@ -1,0 +1,13 @@
+.rightbar {
+  flex: 1.5;
+}
+.rightbatOnline {
+  width: 15px;
+  height: 15px;
+  background-color: limegreen;
+  position: absolute;
+  border-radius: 100%;
+  top: -3px;
+  right: -3px;
+  border: 2px solid white;
+}

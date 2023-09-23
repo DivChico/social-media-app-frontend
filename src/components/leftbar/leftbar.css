@@ -1,0 +1,28 @@
+.leftbar {
+  flex: 2;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  width: 5px;
+  background-color: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  width: 5px;
+  background-color: #008aff;
+}
+.sidebarListItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.sidebarIcon {
+  margin-right: 15px;
+}
+.sidebarFriend {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
