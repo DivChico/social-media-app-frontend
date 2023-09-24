@@ -53,7 +53,7 @@ function Share({ profile, homePage, user, updateFun }) {
     postDesc.current.value = "";
     setPostUrl("");
     setdisplay(false);
-    updateFun();
+    updateFun(Math.random());
   }
 
   return (

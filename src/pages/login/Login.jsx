@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./login.css";
 // material ui
 import Button from "@mui/material/Button";
@@ -11,12 +11,34 @@ import { loginCall } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
+  const [validation, setValidation] = useState("");
+
+  const { isFetching, dispatch, error } = useContext(AuthContext);
   const email = useRef();
   const password = useRef();
-  const { isFetching, error, dispatch, user } = useContext(AuthContext);
+  useEffect(() => {
+    if (
+      localStorage.getItem("emailData") &&
+      localStorage.getItem("passwordData")
+    ) {
+      console.log(localStorage.getItem("emailData"));
+      loginCall(
+        {
+          email: localStorage.getItem("emailData"),
+          password: localStorage.getItem("passwordData"),
+        },
+        dispatch
+      );
+    } else {
+      console.log("no local ");
+    }
+  }, []);
 
   function handleFormSub(event) {
     event.preventDefault();
+    localStorage.setItem("emailData", `${email.current.value}`);
+    localStorage.setItem("passwordData", `${password.current.value}`);
+
     loginCall(
       {
         email: email.current.value,
@@ -24,6 +46,10 @@ function Login() {
       },
       dispatch
     );
+    if (error) {
+      setValidation("wrong email or password");
+      console.log("wrong email or password");
+    }
   }
 
   return (
@@ -71,6 +97,7 @@ function Login() {
                   "Login"
                 )}
               </Button>
+              <h4 className="self-center text-red-600	">{validation}</h4>
             </form>
 
             <Button variant="text" className="loginForgot ">

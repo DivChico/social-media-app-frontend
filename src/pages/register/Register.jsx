@@ -1,12 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./register.css";
 // material ui
 import Button from "@mui/material/Button";
 // routing
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { addUser } from "../../features/users/userSlice";
-import moment from "moment";
 import axios from "axios";
 
 function Register() {
@@ -15,18 +12,30 @@ function Register() {
   const regEmail = useRef();
   const regUsername = useRef();
   const regPassword = useRef();
+  const [validation, setValidation] = useState("");
+
   async function handleFormSub(e) {
+    regEmail.current.setCustomValidity("");
+
     e.preventDefault();
+
     const newUser = {
       username: regUsername.current.value,
       email: regEmail.current.value,
       password: regPassword.current.value,
     };
-    await axios.post(
-      "https://social-media-api-872f.onrender.com/api/auth/register",
-      newUser
-    );
-    Navigate("/login");
+    try {
+      await axios.post(
+        "https://social-media-api-872f.onrender.com/api/auth/register",
+        newUser
+      );
+
+      Navigate("/login");
+      console.log("try");
+    } catch (err) {
+      console.log("catch");
+      setValidation("email or username already exist");
+    }
   }
   return (
     <div className="register w-screen h-screen flex items-center justify-center">
@@ -42,6 +51,7 @@ function Register() {
             <div className="registerBox  flex flex-col p-4 rounded-md bg-white gap-2 h-80 justify-between">
               <input
                 type="Email"
+                required
                 placeholder="Email"
                 className="registerInput focus:outline-none pl-4 h-12 border-2 border-gray rounded-md text-xl p-1"
                 ref={regEmail}
@@ -49,15 +59,19 @@ function Register() {
               <input
                 type="text"
                 placeholder="username"
+                required
                 className="registerInput focus:outline-none pl-4 h-12 border-2 border-gray rounded-md text-xl p-1"
                 ref={regUsername}
               />
               <input
                 type="Password"
+                required
                 placeholder="Password"
+                minLength={"6"}
                 className="registerInput focus:outline-none pl-4 h-12 border-2 border-gray rounded-md text-xl p-1"
                 ref={regPassword}
               />
+
               <Button
                 color="success"
                 variant="contained"
@@ -66,6 +80,7 @@ function Register() {
               >
                 register
               </Button>
+              <h4 className="self-center text-red-600	">{validation}</h4>
               <Link
                 className="flex items-center justify-center w-full"
                 to={"/login"}

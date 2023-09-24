@@ -11,8 +11,8 @@ import Oval from "react-spinners/ClipLoader";
 
 export default function Feed({ profile, userId, homePage, user, posts }) {
   const [update, setUpdate] = useState(true);
-  function updateFun() {
-    setUpdate(!update);
+  function updateFun(value) {
+    setUpdate(value);
     console.log("called");
   }
   const HomePage = () => {
@@ -59,7 +59,7 @@ export default function Feed({ profile, userId, homePage, user, posts }) {
                   key={post._id}
                   postData={post}
                   posts={posts}
-                  updateFun={updateFun}
+                  updateFundel={updateFun}
                 />
               );
             })}

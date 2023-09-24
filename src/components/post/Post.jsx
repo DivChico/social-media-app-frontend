@@ -1,25 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
 // components
 import "./post.css";
+import Commnet from "./Commnet";
 // material ui.
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
-// data
-
-// timeago.js
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-function Post({ postData, updateFun }) {
+function Post({ postData, updateFundel, setDisplay }) {
   const [post, setPost] = useState(postData);
   const { user } = useContext(AuthContext);
   const [postuser, setPostUser] = useState({});
+  const [postCommnets, setPostComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [update, setUpdate] = useState(true);
+  const [displayCommnets, setDisplayCommnets] = useState(false);
+
+  const open = Boolean(anchorEl);
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
@@ -29,6 +35,16 @@ function Post({ postData, updateFun }) {
     };
     fetchUser();
   }, []);
+  useEffect(() => {
+    const fetchPostComments = async () => {
+      const res = await axios.get(
+        `https://social-media-api-872f.onrender.com/api/comments/${postData._id}`
+      );
+      setPostComments(res.data);
+    };
+    fetchPostComments();
+  }, [update]);
+
   async function handleFavClick(e) {
     await axios.put(
       `https://social-media-api-872f.onrender.com/api/posts/${post._id}/like`,
@@ -45,7 +61,6 @@ function Post({ postData, updateFun }) {
   }
   async function deletePost() {
     try {
-      console.log("try delet post");
       await axios.delete(
         `https://social-media-api-872f.onrender.com/api/posts/${postData._id}`,
         {
@@ -56,19 +71,40 @@ function Post({ postData, updateFun }) {
       );
 
       handleClose();
-      updateFun();
+      updateFundel(Math.random());
     } catch (err) {
       console.log(err);
     }
   }
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  async function handleCommentSend(e) {
+    e.preventDefault();
+    if (newComment !== "") {
+      await axios.post(
+        "https://social-media-api-872f.onrender.com/api/comments",
+        {
+          userId: user._id,
+
+          postId: postData._id,
+
+          desc: newComment,
+        }
+      );
+      setNewComment("");
+
+      setUpdate(!update);
+      setDisplayCommnets(true);
+    }
+  }
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  function updateFun() {
+    setUpdate(!update);
+  }
 
   return (
     <div className="post p-4 shadow-lg w-full rounded-md mt-5 mb-5">
@@ -135,11 +171,51 @@ function Post({ postData, updateFun }) {
         </div>
         <div className="postBottomRight">
           {/* comment section */}
-          {/* <Button variant="text" className="postCommentText">
-            <span className="text-black"> Comments soon </span>
-          </Button> */}
+          <Button
+            variant="text"
+            className="postCommentText"
+            onClick={() => {
+              setDisplayCommnets(!displayCommnets);
+            }}
+          >
+            <span className="text-black"> Comments </span>
+          </Button>
         </div>
       </div>
+      <div className="addComment">
+        <form
+          onSubmit={handleCommentSend}
+          className="flex items-center mb-5 mt-5 gap-4"
+        >
+          <TextField
+            id="outlined-basic"
+            label="Comment"
+            variant="outlined"
+            className="w-full  "
+            size="small"
+            value={newComment}
+            onChange={(e) => {
+              setNewComment(e.target.value);
+            }}
+          />
+          <Button variant="text " className="h-full" type="submit">
+            send
+          </Button>
+        </form>
+      </div>
+      {/* comment section */}
+      {displayCommnets
+        ? postCommnets.map((comment) => {
+            return (
+              <Commnet
+                commentDate={comment}
+                key={comment._id}
+                updateFun={updateFun}
+                setDisplay={setDisplay}
+              />
+            );
+          })
+        : null}
     </div>
   );
 }
