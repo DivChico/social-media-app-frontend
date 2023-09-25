@@ -15,6 +15,7 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import VerifiedIcon from "@mui/icons-material/Verified";
 function Post({ postData, updateFundel, setDisplay }) {
   const [post, setPost] = useState(postData);
   const { user } = useContext(AuthContext);
@@ -117,7 +118,10 @@ function Post({ postData, updateFundel, setDisplay }) {
               className="PostProfileImg w-12 h-12 rounded-full object-cover"
             />
             <span className="postUsername text-lg font-bold">
-              {postuser.username}
+              {postuser.username}{" "}
+              {postuser.email === "mhanag651@gmail.com" ? (
+                <VerifiedIcon htmlColor="#1976D2" />
+              ) : null}
             </span>
             <span className="postDate text-sm">{format(post.createdAt)}</span>
           </div>

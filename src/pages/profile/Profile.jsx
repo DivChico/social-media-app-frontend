@@ -7,6 +7,7 @@ import Topbar from "../../components/topbar/topbar";
 import Leftbar from "../../components/leftbar/Leftbar.jsx";
 import Feed from "../../components/Feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // material ui
 import Button from "@mui/material/Button";
@@ -56,6 +57,9 @@ function Profile() {
 
             <span className="profileUsername absolute  text-3xl text-black font-bold">
               {profileUser.username}
+              {profileUser.email === "mhanag651@gmail.com" ? (
+                <VerifiedIcon htmlColor="#1976D2" />
+              ) : null}
             </span>
             <span className="profileDesc absolute   text-2xl text-black ">
               {profileUser.desc}
