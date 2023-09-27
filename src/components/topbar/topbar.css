@@ -8,13 +8,13 @@
   cursor: pointer;
 }
 .topbarLeft {
-  flex: 3;
+  flex: 1;
 }
 .topbarCenter {
-  flex: 5;
+  flex: 2;
 }
 .topbarRight {
-  flex: 4;
+  flex: 1;
 }
 .topbarIconItem {
   display: flex;

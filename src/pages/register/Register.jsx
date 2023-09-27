@@ -39,7 +39,7 @@ function Register() {
   }
   return (
     <div className="register w-screen h-screen flex items-center justify-center">
-      <div className="w-4/5 h-4/5  flex">
+      <div className="w-4/5 h-4/5  flex flex-col md:flex-row">
         <div className="registerLeft p-4 flex-1 flex flex-col justify-center">
           <h3 className="registerLogo font-bold text-5xl mb-2  ">ChicoDiv</h3>
           <spna className="registerDesc text-2xl">

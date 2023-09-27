@@ -25,10 +25,8 @@ function Friend({ friendId }) {
             className="sidebarFriendImg h-8 w-8 rounded-full object-cover"
           />
           <span className="sidebarFriendName">
-            {friend.username}{" "}
-            {friend.email === "mhanag651@gmail.com" ? (
-              <VerifiedIcon htmlColor="#1976D2" />
-            ) : null}{" "}
+            {friend.username}
+            {friend?.verify ? <VerifiedIcon htmlColor="#1976D2" /> : null}
           </span>
         </li>
       </Link>

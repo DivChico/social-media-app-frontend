@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import Oval from "react-spinners/ClipLoader";
+import Friend from "../leftbar/friend";
 
 export default function Feed({ profile, userId, homePage, user, posts }) {
   const [update, setUpdate] = useState(true);
@@ -19,7 +20,19 @@ export default function Feed({ profile, userId, homePage, user, posts }) {
     let [loading, setLoading] = useState(true);
 
     const [userTimeline, setUserTimeline] = useState([]);
+    const [allPosts, setAllPosts] = useState([]);
+    useEffect(() => {
+      async function fun() {
+        setLoading(true);
+        const res = await axios.get(
+          "https://social-media-api-872f.onrender.com/api/posts/all/all"
+        );
+        setAllPosts(res.data);
+        setLoading(false);
+      }
 
+      fun();
+    }, []);
     useEffect(() => {
       setLoading(true);
 
@@ -34,7 +47,12 @@ export default function Feed({ profile, userId, homePage, user, posts }) {
     }, [update]);
     return (
       <>
-        <Share homePage={homePage} user={user} updateFun={updateFun} />
+        <Share
+          homePage={homePage}
+          user={user}
+          updateFun={updateFun}
+          className=""
+        />
         {loading ? (
           <div className=" flex justify-center items-center h-96	">
             <div className=" flex justify-between 	">
@@ -51,9 +69,9 @@ export default function Feed({ profile, userId, homePage, user, posts }) {
           </div>
         ) : null}
 
-        {loading
-          ? null
-          : userTimeline.map((post) => {
+        {loading ? null : (
+          <>
+            {userTimeline.map((post) => {
               return (
                 <Post
                   key={post._id}
@@ -63,9 +81,23 @@ export default function Feed({ profile, userId, homePage, user, posts }) {
                 />
               );
             })}
+
+            {allPosts.map((post) => {
+              return (
+                <Post
+                  key={post._id}
+                  postData={post}
+                  posts={posts}
+                  updateFundel={updateFun}
+                />
+              );
+            })}
+          </>
+        )}
       </>
     );
   };
+
   const ProfilePage = () => {
     let [loading, setLoading] = useState(true);
 
@@ -111,18 +143,20 @@ export default function Feed({ profile, userId, homePage, user, posts }) {
                 />
               );
             })}
+        {userProfilePosts.length === 0 ? (
+          <>
+            <div className="w-full p-10 flex justify-center items-center shadow-md mb-10">
+              <h2>this user has no posts</h2>
+            </div>
+          </>
+        ) : null}
       </>
     );
   };
 
-  // let mutablePosts = [...posts];
-  // mutablePosts.sort((p1, p2) => {
-  //   return new Date(p2.createdAt) - new Date(p1.createdAt);
-  // });
-
   return (
     <div className="feed ">
-      <div className="p-4 h-full overflow-y-auto">
+      <div className="p-0 md:p-4 h-full overflow-y-auto">
         {homePage ? <HomePage /> : <ProfilePage />}
       </div>
     </div>

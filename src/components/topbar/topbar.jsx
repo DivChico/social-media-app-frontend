@@ -10,12 +10,13 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from "@mui/icons-material/Menu";
 // reactRouter
 import { Link } from "react-router-dom";
 import { logout } from "../../features/login/LoginSlice";
 import { AuthContext } from "../../context/AuthContext";
 
-function Topbar({ user }) {
+function Topbar({ user, setIsHidden, isHidden }) {
   const { dispatch } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -33,14 +34,29 @@ function Topbar({ user }) {
   return (
     <div className="topbarContainer sticky top-0 items-center  w-full bg-blue-600  flex ">
       <div className="topbarLeft flex ">
-        <Link to={"/"}>
+        <div className="pl-7">
+          <button
+            onClick={() => {
+              setIsHidden(!isHidden);
+            }}
+            className="block md:hidden"
+          >
+            <MenuIcon htmlColor="white " />
+          </button>
+        </div>
+        <Link to={"/"} className="hidden md:block">
           <span className="logo text-2xl ml-5 font-bold text-white 	cursor-pointer	 ">
             ChicoDiv
           </span>
         </Link>
       </div>
-      <div className="topbarCenter    ">
-        <div className="searchbar w-full h-8 bg-white rounded-full flex items-center">
+      <div className="topbarCenter flex justify-center ">
+        <Link to={"/"} className="">
+          <span className="logo text-2xl ml-5 font-bold text-white 	cursor-pointer block md:hidden	 ">
+            ChicoDiv
+          </span>
+        </Link>
+        <div className="searchbar w-full h-8 bg-white rounded-full  items-center hidden md:flex">
           <SearchIcon className="searchIcon ml-2" />
           <input
             type="text"
@@ -49,7 +65,7 @@ function Topbar({ user }) {
           />
         </div>
       </div>
-      <div className="topbarRight flex items-center  justify-end  text-white gap-10 pr-10 ">
+      <div className="topbarRight flex items-center  justify-end  text-white gap-4 md:gap-10 pr-7 ">
         {/* <div className="topbarLinks">
           <Link to={"/"}>
             <span className="topbarLink text-xl ">Home</span>

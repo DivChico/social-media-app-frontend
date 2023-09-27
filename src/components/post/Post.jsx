@@ -21,7 +21,7 @@ function Post({ postData, updateFundel, setDisplay }) {
   const { user } = useContext(AuthContext);
   const [postuser, setPostUser] = useState({});
   const [postCommnets, setPostComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [update, setUpdate] = useState(true);
   const [displayCommnets, setDisplayCommnets] = useState(false);
@@ -119,9 +119,7 @@ function Post({ postData, updateFundel, setDisplay }) {
             />
             <span className="postUsername text-lg font-bold">
               {postuser.username}{" "}
-              {postuser.email === "mhanag651@gmail.com" ? (
-                <VerifiedIcon htmlColor="#1976D2" />
-              ) : null}
+              {postuser?.verify ? <VerifiedIcon htmlColor="#1976D2" /> : null}
             </span>
             <span className="postDate text-sm">{format(post.createdAt)}</span>
           </div>

@@ -80,11 +80,11 @@ export default function Rightbar({ profileUser, updateFun }) {
     return (
       <>
         {profileUser._id === user._id ? (
-          <Button variant="contained" onClick={handleClickOpen}>
+          <Button variant="contained" onClick={handleClickOpen} fullWidth>
             edit profile
           </Button>
         ) : (
-          <Button variant="contained" className="">
+          <Button variant="contained" className="" fullWidth>
             {follow ? (
               <>
                 <div onClick={handleUnfollow}>
@@ -102,11 +102,17 @@ export default function Rightbar({ profileUser, updateFun }) {
             )}
           </Button>
         )}
+        <h4 className="font-bold mb-2 mt-10 text-2xl">
+          followers :{profileUser?.followers?.length}
+        </h4>
+        <h4 className="font-bold mb-2 mt-10 text-2xl">
+          followings :{profileUser?.followings?.length}
+        </h4>
 
-        <h4 className="rightbarTitle font-bold mb-2 mt-2 text-2xl ">
+        <h4 className="rightbarTitle font-bold mb-2 mt-10 text-2xl  ">
           User Info
         </h4>
-        <div className="rightbarInfo mb-4">
+        <div className="rightbarInfo mb-4 flex-row ">
           <div className="rightbarInfoItem mb-2 ">
             <span className="rightbarInfoKey font-bold mr-2 ">City:</span>
             <span className="rightbarInfoValue">{profileUser.city}</span>
@@ -132,11 +138,15 @@ export default function Rightbar({ profileUser, updateFun }) {
             </span>
           </div>
         </div>
-        <h4 className="rightbarTitle font-bold text-2xl mb-2">User Friends</h4>
-        <div className="rightbarFollowings flex  flex-wrap  ">
+
+        <h4 className="rightbarTitle font-bold text-2xl mb-2 mt-10">
+          User Friends
+        </h4>
+        <div className="rightbarFollowings flex  flex-wrap justify-between items-center ">
           {profileUser?.followings?.map((friend) => {
             return <RightbarProFriend key={friend} userID={friend} />;
           })}
+          {profileUser?.followings?.length === 0 ? "no friends" : null}
         </div>
       </>
     );

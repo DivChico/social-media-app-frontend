@@ -211,21 +211,27 @@ function Share({ profile, homePage, user, updateFun }) {
                 onClick={handleClickOpen}
               >
                 <PermMediaIcon htmlColor="tomato" />
-                <span className="shareOptionText text-black">
+                <span className="shareOptionText text-black  hidden md:block ">
                   Photo or Video
                 </span>
               </Button>
               <Button className="shareOption flex items-center gap-2 mr-4 ">
                 <LabelIcon htmlColor="green" />
-                <span className="shareOptionText text-black">Tag</span>
+                <span className="shareOptionText text-black hidden md:block">
+                  Tag
+                </span>
               </Button>
               <Button className="shareOption flex items-center gap-2 mr-4 ">
                 <FmdGoodIcon htmlColor="blue" />
-                <span className="shareOptionText text-black">Location</span>
+                <span className="shareOptionText text-black hidden md:block">
+                  Location
+                </span>
               </Button>
               <Button className="shareOption flex items-center gap-2 mr-4 ">
                 <EmojiEmotionsIcon htmlColor="#FFA500" />
-                <span className="shareOptionText text-black">Feelings</span>
+                <span className="shareOptionText text-black hidden md:block">
+                  Feelings
+                </span>
               </Button>
               <Button variant="contained" onClick={handleshare}>
                 share

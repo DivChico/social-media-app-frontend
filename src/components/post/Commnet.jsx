@@ -16,6 +16,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
+import VerifiedIcon from "@mui/icons-material/Verified";
 function Commnet({ commentDate, updateFun }) {
   const [commentUser, setCommnetUser] = useState({});
   const { user } = useContext(AuthContext);
@@ -81,7 +82,10 @@ function Commnet({ commentDate, updateFun }) {
               />
               {/* add username */}
               <span className="postUsername text-md font-bold">
-                {commentUser.username}
+                {commentUser.username}{" "}
+                {commentUser?.verify ? (
+                  <VerifiedIcon htmlColor="#1976D2" />
+                ) : null}
               </span>
               <span className="postDate text-sm">
                 {format(commentDate.createdAt)}
