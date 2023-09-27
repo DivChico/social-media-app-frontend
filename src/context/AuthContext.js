@@ -1,5 +1,7 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import AuthReducer from "./AuthReducer";
+import { loginCall } from "../apiCalls";
+
 const INITIAL_STATE = {
   user: null,
   isFetching: false,
@@ -8,6 +10,7 @@ const INITIAL_STATE = {
 export const AuthContext = createContext(INITIAL_STATE);
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+
   return (
     <AuthContext.Provider
       value={{
