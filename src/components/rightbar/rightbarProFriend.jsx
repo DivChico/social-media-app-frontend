@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import VerifiedIcon from "@mui/icons-material/Verified";
+
 function RightbarProFriend({ userID }) {
   const [friend, setFriend] = useState([]);
 
@@ -26,6 +28,7 @@ function RightbarProFriend({ userID }) {
         />
         <span className="rightbarFollowingName font-bold ">
           {friend.username}
+          {friend?.verify ? <VerifiedIcon htmlColor="#1976D2" /> : null}
         </span>
       </div>
     </Link>
